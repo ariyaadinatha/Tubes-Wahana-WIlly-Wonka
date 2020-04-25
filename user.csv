@@ -1,0 +1,6 @@
+Nama,Tanggal_Lahir,Tinggi_Badan,Username,Password,Role,Saldo,Gold
+Ariya,21/01/2001,168,ariya,qwe,admin,45500.0,True
+Ahmad,12/04/00,150,ahmad,asd,pemain,40000,False
+Budi,25/12/2001,160,budi,zxc,pemain,20000,False
+Eko,02/02/01,170,eko,qwe,pemain,25000,False
+Bambang,14/06/2001,180,bambang,qwe,pemain,10000,True
