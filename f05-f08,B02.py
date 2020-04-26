@@ -1,6 +1,12 @@
 import csv
 from csv import writer
 
+def length(a):
+    k = 0
+    for i in a:
+        k = k + 1
+    return k
+
 def cariPemain():
     findPlayer = input("Masukkan username: ")
     found = False
@@ -55,7 +61,7 @@ def cariWahana():
 
     with open('wahana.csv', 'r') as userfile:
         venueData = list(csv.reader(userfile))
-        count = len(venueData)
+        count = length(venueData)
 
         while (i < count):
             if (batasTinggi == 1):
@@ -134,7 +140,7 @@ def beliTiket(username):
         
     with open('wahana.csv', 'r') as userfile:
         venueData = list(csv.reader(userfile))
-        count = len(venueData)
+        count = length(venueData)
 
         j = 1
         found = False
@@ -195,9 +201,8 @@ def pakaiTiket(username):
     use = int(input("Jumlah tiket yang digunakan: "))
 
     with open('tiket.csv', 'r', newline='') as userfile:
-        d = csv.reader(userfile)
-        tiket = list(d)
-        count = len(tiket)
+        tiket = list(csv.reader(userfile)d)
+        count = length(tiket)
         
         valid = False
         found = False
@@ -239,7 +244,7 @@ def goldAccount(username):
         upgrade = False
 
         # Mencari index username pemain
-        count = len(userData)
+        count = length(userData)
         i = 1
         found = False
 
@@ -254,32 +259,34 @@ def goldAccount(username):
             upgrUser = input("Masukkan username user yang ingin di-upgrade:")
             price = 50000
 
-            with open('user.csv', 'r') as userfile:
-                userData = list(csv.reader(userfile))
-                found = False
-                i = 1
+            upgrade = False
+            found = False
+            i = 1
 
-                # Cari index user
-                while not found and i < len(userData) :
-                    if (upgrUser == userData[i][3]):
-                        found = True
-                    else:
-                        i = i + 1
+            # Cari index user
+            while not found and i < length(userData) :
+                if (upgrUser == userData[i][3]):
+                    found = True
+                else:
+                    i = i + 1
                 
-                # Upgrade account
-                if found:
-                    if not userData[i][7]:
-                        print("Akun sudah terdaftar sebagai Golden.")
+            # Upgrade account
+            if found:
+                if not userData[i][7]:
+                    print("Akun sudah terdaftar sebagai Golden.")
+                else:
+                    if (int(userData[i][6]) > price):
+                        userData[i][7] = True
+                        userData[i][6] = int(userData[i][6]) - price
+                        upgrade = True
+                        print("Akun Anda telah diupgrade.")
                     else:
-                        if (int(userData[i][6]) > price):
-                            userData[i][7] = True
-                            userData[i][6] = int(userData[i][6]) - price
-                            upgrade = True
-                            print("Akun Anda telah diupgrade.")
-            if upgrade:
-                with open('user.csv', 'w', newline='') as write:
-                    w = writer(write)
-                    w.writerows(userData) 
+                        print("Saldo pengguna tidak cukup untuk melakukan upgrade.")
+            
+        if upgrade:
+            with open('user.csv', 'w', newline='') as write:
+                w = writer(write)
+                w.writerows(userData) 
 
         else:
             print("Anda tidak dapat mengakses menu ini.")
@@ -287,23 +294,23 @@ def goldAccount(username):
 
 ##### UNTUK KEPERLUAN TESTING #####
 
-###username = input("Insert username: ")
-###print(" ")
-###print("Pilih menu:")
-###print("1. Cari pemain")
-###print("2. Cari wahana")
-###print("3. Beli tiket")
-###print("4. Pakai tiket")
-###print("5. Upgrade account")
-###choice = int(input())
+# username = input("Insert username: ")
+# print(" ")
+# print("Pilih menu:")
+# print("1. Cari pemain")
+# print("2. Cari wahana")
+# print("3. Beli tiket")
+# print("4. Pakai tiket")
+# print("5. Upgrade account")
+# choice = int(input())
 
-###if choice == 1 :
-###    cariPemain()
-###elif choice == 2 :
-###    cariWahana()
-###elif choice == 3 :
-###    beliTiket(username)
-###elif choice == 4 :
-###    pakaiTiket(username)
-###else:
-###    goldAccount(username)
+# if choice == 1 :
+#    cariPemain()
+# elif choice == 2 :
+#    cariWahana()
+# elif choice == 3 :
+#    beliTiket(username)
+# elif choice == 4 :
+#    pakaiTiket(username)
+# else:
+#    goldAccount(username)
