@@ -167,8 +167,8 @@ def beliTiket(username):
             print("Anda tidak cukup umur untuk menaiki wahana ini.")
 
         # Memeriksa saldo user
+        enough = False
         if old:
-            enough = False
             if (saldo > price*qty):
                 enough = True
                 userData[i][6] = saldo - price*qty
