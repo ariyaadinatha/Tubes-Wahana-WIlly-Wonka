@@ -1,6 +1,6 @@
 Nama,Tanggal_Lahir,Tinggi_Badan,Username,Password,Role,Saldo,Gold
-Ariya,21/01/2001,168,ariya,qwe,admin,45500.0,True
-Ahmad,12/04/00,150,ahmad,asd,pemain,40000,False
-Budi,25/12/2001,160,budi,zxc,pemain,20000,False
-Eko,02/02/01,170,eko,qwe,pemain,25000,False
-Bambang,14/06/2001,180,bambang,qwe,pemain,10000,True
+Ariya,21/01/2001,168,ariya,gAAAAABepT1E0I6IlDRr5uDyfpQRSKEKq1rB8EErKvOJB9tJUHXpC5zLjIY31gWCa4I6UriYZuZQp0KZCnEAaZ00ocsnYUvCkw==,admin,45500.0,True
+Ahmad,12/04/00,150,ahmad,gAAAAABepT1j5WZqSF1_ezqVncjcZN5BPzCAdrfjqH5DCaWefk3Ww9AWTsXx7vrgvBPFrwl1a59vsBvXUAIruVNFPBY13Zth3Q==,pemain,40000,False
+Budi,25/12/2001,160,budi,gAAAAABepT1zQBB07gSKEvxxp_FPHC_pTr0zwTtZ8db71h7ui6OEds6yd8nrlbcRH5YmUalE7a04rhO7vswJIj-EMtCUZmHv1g==,pemain,20000,False
+Eko,02/02/01,170,eko,gAAAAABepT1E0I6IlDRr5uDyfpQRSKEKq1rB8EErKvOJB9tJUHXpC5zLjIY31gWCa4I6UriYZuZQp0KZCnEAaZ00ocsnYUvCkw==,pemain,25000,False
+Bambang,14/06/2001,180,bambang,gAAAAABepT1E0I6IlDRr5uDyfpQRSKEKq1rB8EErKvOJB9tJUHXpC5zLjIY31gWCa4I6UriYZuZQp0KZCnEAaZ00ocsnYUvCkw==,pemain,10000,True

@@ -54,16 +54,15 @@ def login(Username,Password):# return temp(0 username ngga ada, 1 username ada p
     global temp
     ifile = open("user.csv")
     reader = csv.reader(ifile)
-    temp = '0' #0 username ngga ada, 1 username ada password salah, 2 username ada password benar
+    temp = '0' #0 username ngga ada, 1 username ada password salah, 2 username ada password benar, 3 admin
+
     for row in reader:
         if (row[3] == Username):
             temp = 1
-            if (row[4] == Password):
+            if (cipher.decrypt(row[4].encode()).decode() == Password):
                 temp = 2
-            else:
-                temp = 1
-            return(temp)
-                
+                if (row[5] == 'admin'):
+                    temp = 3
 #kurang admin login
 
 def cariPemain():
@@ -425,7 +424,7 @@ def saveFile(fileName,array):
 
 def tambahUser(Nama,Tanggal_Lahir,Tinggi_Badan,Username,Password,Role,Saldo): #pasti ke file user
     ifile = open("user.csv",'a')
-    ifile.write(Nama + ',' + Tanggal_Lahir+ ','  + Tinggi_Badan+ ','  + Username+ ','  + Password + ','  + Role + ','  + Saldo)
+    ifile.write(Nama + ',' + Tanggal_Lahir+ ','  + Tinggi_Badan+ ','  + Username+ ','  + cipher.encrypt(Password.encode()) + ','  + Role + ','  + Saldo)
     ifile.write('\n')
 
 def sebutSajaLen(b):
@@ -505,7 +504,13 @@ def adminmenu():
 import csv
 import getpass
 from datetime import date
+from cryptography.fernet import Fernet
+
 stmt=True
+permAdmin = False
+
+key = b'EXiOWY1qNCF39AfV4j8GKMZBUvnlMufhwPwm4bfjMPU='
+cipher = Fernet(key)
 
 print("\nSelamat Datang di Wahana Wangky")
 print("Silahkan Login untuk menggunakan fasilitas ini")
@@ -513,8 +518,9 @@ while stmt==True:
     username=input("\nMasukkan Username : ")
     password=getpass.getpass("Masukkan Password : ")
     login(username,password)
-
-    if temp==2:
+    if temp == 3 :
+        permAdmin = True
+    if (temp==2 or temp == 3):
         adminmenu()
     else:
         print("\n Login gagal, silahkan ulangi!")
