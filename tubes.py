@@ -677,7 +677,7 @@ def saveFile(fileName,array):
 
 def tambahUser(Nama,Tanggal_Lahir,Tinggi_Badan,Username,Password,Role,Saldo): #pasti ke file user
     ifile = open("user.csv",'a')
-    ifile.write(Nama + ',' + Tanggal_Lahir+ ','  + Tinggi_Badan+ ','  + Username+ ','  + cipher.encrypt(Password.encode()) + ','  + Role + ','  + Saldo)
+    ifile.write(Nama + ',' + Tanggal_Lahir+ ','  + Tinggi_Badan+ ','  + Username+ ','  + cipher.encrypt(Password.encode()).decode() + ','  + Role + ','  + Saldo)
     ifile.write('\n')
 
 def sebutSajaLen(b):
