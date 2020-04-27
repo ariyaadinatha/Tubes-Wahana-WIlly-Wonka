@@ -684,18 +684,18 @@ def loadFile(fileName):
     ifile.close()
     return(arr)
 
-def saveFile(fileName,ar ):
+def saveFile(fileName,array):
     
     ifile = open(fileName,'w')
     #print(array[0])
     #writer = csv.DictWriter(ifile, fieldnames=array[0])
     for row in array:
         #print(row)
-        temp=''
+        value =''
         for col in row:
-            temp += str(col) + ','
-        temp = temp[0:-1]
-        ifile.write(temp + '\n')
+            value += str(col) + ','
+        value = value[0:-1]
+        ifile.write(value + '\n')
 
 
 def tambahUser(Nama,Tanggal_Lahir,Tinggi_Badan,Username,Password,Role,Saldo): #pasti ke file user
