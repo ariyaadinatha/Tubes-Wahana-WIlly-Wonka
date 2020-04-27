@@ -243,46 +243,127 @@ def pakaiTiket():
         f = csv.writer(userfile)
         f.writerows(tiket)
 
-def refund():
+def refund(username):
+
+    import csv
+    from datetime import date
     tanggal = date.today()
-    Id_Wahana=input("Masukan ID wahana : ")
+    ID_Wahana=input("Masukan ID wahana : ")
     Jumlah_refund=int(input('Jumlah tiket yang di-refund :'))
-    
-    with open('pembelian.csv','r') as csv:
-        reader1= csv.DictReader(csv)
-        for row in reader1:
-            if (row['ID_Wahana']) == Id_Wahana:
-                cek_jumlah = int(row['Jumlah_Tiket'])
-				#cek_Username=(row['Username']) masih bingung gimana ngecek username nya 
-                cek_id_wahana=(row['ID_Wahana'])	
-		
-        with open('refund.csv', 'r+') as csvfile:
-            fieldnames=['Username','Tanggal_Refund','ID_Wahana','Jumlah_Tiket']
-            writer=csv.DictWriter(csvfile,fieldnames=fieldnames)
+    a=username
+    array=[0 for i in range(100)]
+    arrayuser=[0 for i in range(100)]
+    n=0
+    neff=0
+    cek=0
+
+
+    with open('tiket.csv','r') as csvfile:
+        with open('refund.csv','a',newline='') as csvfile1:
+            fieldnames=['Username','ID_Wahana','Jumlah_Tiket']
+            writer= csv.DictWriter(csvfile,fieldnames=fieldnames)
             reader= csv.DictReader(csvfile)
-            
+            writer1=csv.writer(csvfile1)
+            reader1= csv.reader(csvfile1)
+
             for row in reader:
-                if (row['ID_Wahana']) == Id_Wahana:
-                    if cek_jumlah >= Jumlah_refund:
-                        pengurangan_tiket = cek_jumlah - Jumlah_refund
-                        writer.writerow({'Tanggal_Refund': tanggal,'ID_Wahana':Id_Wahana, 'Jumlah_Tiket': pengurangan_tiket})
-                        print('Uang refund sudah kami berikan pada akun Anda.')
-                    else:
-                        print("Anda tidak memiliki tiket terkait.")
-                else:
-                    print("Anda tidak memiliki tiket terkait.")
+                username_simpan=row['Username']
+                ID_Wahana_simpan=row['ID_Wahana']
+                jumlah_tiket_simpan=row['Jumlah_Tiket']
+                array[neff]=(username_simpan,ID_Wahana_simpan,jumlah_tiket_simpan)
+                neff+=1            
+            for i in range (0,neff):
+                if array[i][0] == a and array[i][1]==ID_Wahana:
+                    cek=int(array[i][2])
+            
+            arraybaru=[0 for i in range(neff)]
+            
+            if cek>=Jumlah_refund:
+                tiketakhir=str(cek-Jumlah_refund)
+                for i in range (0,neff):
+                    if array[i][0] == a and array[i][1]==ID_Wahana:
+                        array[i]=(a,ID_Wahana,tiketakhir)
+                        writer1.writerow([a,tanggal,ID_Wahana,cek])
 
-def kritikSaran():
-    Id_Wahana=input("Masukan ID wahana : ")
-    tanggal = input('Tanggal pelaporan :')
-    kritik_saran=input('Kritik/saran anda :')
+                print('Uang refund sudah kami berikan pada akun Anda.')
 
-    with open ('kritiksaran.csv','r+') as csv:
-        writer= csv.DictWriter(csv)
-        #ngisi usernamenya gatau gimana..
-        writer.writerow({'Tanggal_Kritik': tanggal,'ID_Wahana':Id_Wahana, 'Isi_Kritik': kritik_saran})
+                for i in range (0,neff):
+                    data1=array[i][0]
+                    data2=array[i][1]
+                    data3=array[i][2]
+                    arraybaru[i]=(data1,data2,data3)
+                
+
+                with open ('user.csv','r') as liatuser:
+                    reader2=csv.DictReader(liatuser)
+                    for row in reader2:
+                        nama_simpan=row['Nama']
+                        tanggalL_simpan=row['Tanggal_Lahir']
+                        Tinggi_simpan=row['Tinggi_Badan']
+                        user_simpan=row['Username']
+                        pass_simpan=row['Password']
+                        role_simpan=row['Role']
+                        saldo_simpan=row['Saldo']
+                        arrayuser[n]=(nama_simpan,tanggalL_simpan,Tinggi_simpan,user_simpan,pass_simpan,role_simpan,saldo_simpan)
+                        n+=1
+
+                    for i in range (0,n):
+                        if (arrayuser[i][3]) == a:
+                            saldoawal=(arrayuser[i][6])
+                            saldoakhir=int(saldoawal)+(500*int(cek))
+                            arrayuser[i]=(arrayuser[i][0],arrayuser[i][1],arrayuser[i][2],arrayuser[i][3],arrayuser[i][4],arrayuser[i][5],str(saldoakhir))
+                    
+
+                with open ('user.csv','w') as csvfile:
+                    fieldnames=['Nama','Tanggal_Lahir','Tinggi_Badan','Username','Password','Role','Saldo']
+                    writer= csv.DictWriter(csvfile,fieldnames=fieldnames)
+
+                    writer.writeheader()
+                    for i in range (0,n):
+                        writer.writerow({'Nama':arrayuser[i][0],'Tanggal_Lahir':arrayuser[i][1],'Tinggi_Badan':arrayuser[i][2],'Username':arrayuser[i][3],'Password':arrayuser[i][4],'Role':arrayuser[i][5],'Saldo':arrayuser[i][6]})
+
+                with open ('tiket.csv','w') as csvfile:
+                    fieldnames=['Username','ID_Wahana','Jumlah_Tiket']
+                    writer= csv.DictWriter(csvfile,fieldnames=fieldnames)
+
+                    writer.writeheader()
+                    for i in range (0,neff):
+                        writer.writerow({'Username':arraybaru[i][0],'ID_Wahana':arraybaru[i][1],'Jumlah_Tiket':(arraybaru[i][2])})
+            else:
+                print("Anda tidak memiliki tiket terkait.")
+
+def kritikSaran(username):
+    import csv
+    a=(username)
+    Id_Wahana=(input("Masukan ID wahana : "))
+    tanggal =(input('Tanggal pelaporan :'))
+    kritik_saran=(input('Kritik/saran anda :'))
+
+    with open ('kritiksaran.csv','a',newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow([a,tanggal,Id_Wahana,kritik_saran])
+    print("Kritik dan saran Anda kami terima.")
+
+def adminKritikSaran():
+    import csv
+    array=[0 for i in range (100)]
+    neff=0
+    with open ('kritiksaran.csv','r') as csv_file:
+        reader=csv.DictReader(csv_file)
+
+        for row in reader:
+            Username = row['Username']
+            Tanggal_Kritik = row['Tanggal_Kritik']
+            ID_Wahana = row['ID_Wahana']
+            Isi_Kritik = row['Isi_Kritik']
+            array[neff]=(ID_Wahana,Tanggal_Kritik,Username,Isi_Kritik)
+            neff+=1
+        print('Kritik dan saran : ')
+        for i in range (0,neff):
+            print(array[i][0],'|',array[i][1],'|',array[i][2],'|',array[i][3],'|')
 
 def tambahWahana():
+    import csv
     print('Masukan Informasi Wahana yang ditambahkan :')
     ID_Wahana = input('Masukan ID Wahana : ')
     Nama_Wahana = input('Masukan Nama Wahana : ')
@@ -290,9 +371,61 @@ def tambahWahana():
     Batasan_umur = input('Batasan umur : ')
     Batasan_tinggi = input('Batasan Tinggi Badan : ')
 
-    with open ('wahana.csv', 'r+') as csv:
-        writer=csv.writer(csv)
+    with open ('wahana.csv','a',newline='') as csv_file:
+        writer=csv.writer(csv_file)
+
         writer.writerow([ID_Wahana,Nama_Wahana,Harga_Tiket,Batasan_umur,Batasan_tinggi])
+    print("Info wahana telah ditambahkan!")
+
+def bestwahana():
+    import csv
+    array=[0 for i in range(100)]
+    a=0
+    neff=0
+    with open ("wahana.csv","r") as csv1:
+        with open ("pembelian.csv",'r') as csv2:
+            reader1=csv.DictReader(csv1)
+            reader2=csv.DictReader(csv2)
+
+            for row in reader2:
+                ID_Wahana=row["ID_Wahana"]
+                Jumlah=row["Jumlah_Tiket"]
+                array[neff]=(Jumlah,ID_Wahana)
+                neff+=1
+            arraybaru=[0 for i in range((neff))]
+            for row in reader1:
+                for i in range (0,neff):
+                    if row["ID_Wahana"] == array[i][1]:
+                        nama=row["Nama_Wahana"]
+                        data1=array[i][0]
+                        data2=array[i][1]
+                        data3=nama
+                        arraybaru[i]=(data3,data2,data1)
+            t=arraybaru
+            sums = {}
+            for i in t:
+                sums[tuple(i[:-1])] = int(sums.get(tuple(i[:-1]),0)) + int(i[-1])
+            arraybaru = [[a,b,sums[(a,b)]] for a,b in sums]
+
+            for i in range(sebutSajaLen(arraybaru)):
+                data1=arraybaru[i][0]
+                data2=arraybaru[i][1]
+                data3=arraybaru[i][2]
+                arraybaru[i]=(data3,data2,data1)
+
+            for i in range (1,sebutSajaLen(arraybaru)):
+                temp=int(arraybaru[i][0])
+                tempgeser= arraybaru[i]
+                j=i-1
+                while j >= 0 and temp<int(arraybaru[j][0]):
+                    arraybaru[j+1]= arraybaru[j]
+                    j-=1
+                arraybaru[j+1]=tempgeser
+            arraybaru=(arraybaru[::-1])
+
+
+            for i in range (0,3):
+                print(i+1,"|",arraybaru[i][1],"|",arraybaru[i][2],"|",arraybaru[i][0])
 
 def topUp():
     with open('user.csv') as inf:
@@ -482,7 +615,9 @@ def adminmenu():
     print("4. Top Up Saldo")
     print("5. Riwayat Penggunaan Wahana")
     print("6. Jumlah Tiket Pemain")
-    print("7. Exit")
+    print("7. Melihat Kritik dan Saran")
+    print("8. Best Wahana")
+    print("9. Exit")
     pilihan=int(input("Masukkan pilihan : "))
 
     if pilihan==1:
@@ -498,6 +633,10 @@ def adminmenu():
     elif pilihan==6:
         jumlahPemain()
     elif pilihan==7:
+        adminKritikSaran()
+    elif pilihan==8:
+        bestwahana()
+    elif pilihan==9:
         exitProgram()
 
 #Kondisi awal
