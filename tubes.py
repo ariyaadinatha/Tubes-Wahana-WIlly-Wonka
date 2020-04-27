@@ -1,4 +1,5 @@
 def load():
+    '''
     fileUser=input("Masukkan nama File User : ")
     fileWahana=input("Masukkan nama File Daftar Wahana : ")
     filePembelian=input("Masukkan nama File Pembelian Tiket : ")
@@ -6,21 +7,38 @@ def load():
     fileTiket=input("Masukkan nama File Kepemilikan Tiket : ")
     fileRefund=input("Masukkan nama File Refund Tiket : ")
     fileKritiksaran=input("Masukkan nama File Kritik dan Saran : ")
+    '''
+    fileUser='user.csv'
+    fileWahana='wahana.csv'
+    filePembelian='pembelian.csv'
+    filePenggunaan='penggunaan.csv'
+    fileTiket='tiket.csv'
+    fileRefund='refund.csv'
+    fileKritiksaran='kritiksaran.csv'
 
     #yang diload merupakan file temporary
-    loadFile(fileUser)
-    loadFile(fileWahana)
-    loadFile(filePembelian)
-    loadFile(filePenggunaan)
-    loadFile(fileTiket)
-    loadFile(fileRefund)
-    loadFile(fileKritiksaran)
+    global ArrUser
+    global ArrWahana
+    global ArrPembelian
+    global ArrPenggunaan
+    global ArrTiket
+    global ArrRefund
+    global ArrKritiksaran
+    
+    ArrUser = loadFile(fileUser)
+    ArrWahana = loadFile(fileWahana)
+    ArrPembelian = loadFile(filePembelian)
+    ArrPenggunaan = loadFile(filePenggunaan)
+    ArrTiket =  loadFile(fileTiket)
+    ArrRefund = loadFile(fileRefund)
+    ArrKritiksaran = loadFile(fileKritiksaran)
 
     print("File perusahaan Willy Wangky's Chocolate Factory telah di-load.")
     
 
 def save():
     #disave ke file asli
+    '''
     fileUser=input("Masukkan nama File User : ")
     fileWahana=input("Masukkan nama File Daftar Wahana : ")
     filePembelian=input("Masukkan nama File Pembelian Tiket : ")
@@ -28,14 +46,14 @@ def save():
     fileTiket=input("Masukkan nama File Kepemilikan Tiket : ")
     fileRefund=input("Masukkan nama File Refund Tiket : ")
     fileKritiksaran=input("Masukkan nama File Kritik dan Saran : ")
-
-
-    saveFile("userTemp.csv", fileUser)
-    saveFile("wahanaTemp.csv",fileWahana)
-    saveFile("pembelianTemp.csv",filePembelian)
-    saveFile("penggunaanTemp.csv",filePenggunaan)
-    saveFile("tiketTemp.csv",fileTiket)
-    saveFile("kritiksaranTemp.csv",fileKritiksaran)
+    '''
+    saveFile("userTemp.csv", ArrUser)
+    saveFile("wahanaTemp.csv",ArrWahana)
+    saveFile("pembelianTemp.csv",ArrPembelian)
+    saveFile("penggunaanTemp.csv",ArrPenggunaan)
+    saveFile("tiketTemp.csv",ArrTiket)
+    saveFile('refund.csv',ArrRefund)
+    saveFile("kritiksaranTemp.csv",ArrKritiksaran)
     print("Data berhasil disimpan!")
 
 def signup():
@@ -778,6 +796,7 @@ while stmt==True:
     username=input("\nMasukkan Username : ")
     password=getpass.getpass("Masukkan Password : ")
     login(username,password)
+    load()
     if temp == 3 :
         permAdmin = True
     if (temp==2 or temp == 3):

@@ -1,1 +1,6 @@
-.
+ID_Wahana,Nama_Wahana,Harga_Tiket,Batasan_Umur,Batasan_Tinggi
+1,Roda Putar,1000,11,140
+2,Rocket,2000,12,150
+3,Jembud,3000,13,160
+4,Bianglala,4000,14,170
+5,Crazy Shaker,5000,15,180
