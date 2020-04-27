@@ -1,3 +1,4 @@
+import csv
 def topUp():
     with open('user.csv') as topupfile:
         reader = csv.reader(topupfile.readlines())
@@ -50,6 +51,11 @@ def jumlahTiket():
 	#membuat array
     arrayID=[]
     arrayJumlah=[]
+    arrayNama=[]
+    kamusID=[]
+    kamusNama=[]
+    banyaKamus=0
+    catatIndex=[]
     index=0
     with open('tiket.csv') as tiketfile:
         readTiket = csv.reader(tiketfile)
@@ -63,13 +69,28 @@ def jumlahTiket():
                 arrayJumlah=arrayJumlah+[kolom[2]]
                 index=index+1
 
+    #untuk mencari nama wahana dari ID
+    with open('wahana.csv') as wahanafile:
+        readWahana = csv.reader(wahanafile)
+        next(wahanafile)
+        for kolom in readWahana:
+            kamusID=kamusID+[kolom[0]]
+            kamusNama=kamusNama+[kolom[1]]
+            banyaKamus=banyaKamus+1
+        matrixKamus=[kamusID,kamusNama]
+    #menetapkan index wahana
+    for i in range (index):
+        for j in range (banyaKamus):
+            if matrixKamus[0][j]==arrayID[i]:
+                catatIndex=catatIndex+[j]
+
 #menampilkan wahana dan banyak tiket
     if index==0:
         print("User tidak ditemukan")
     else:
-        print("ID Wahana | Banyak Tiket ")
+        print("ID Wahana | Nama Wahana | Banyak Tiket ")
         for i in range (index):
-            print(f"{arrayID[i]}    | {arrayJumlah[i]}")
+            print(f"{arrayID[i]} | {kamusNama[catatIndex[i]]} | {arrayJumlah[i]}")
 
 def exitProgram():
     global stmt
@@ -113,7 +134,7 @@ def tiketHilang():
                 found=found+1
                 tiketAwal=int(line[2])
                 tiketAkhir=tiketAwal-jumlahHilang
-                if tiketAkhir==0:
+                if tiketAkhir<=0:
                     print("Tiket habis, data dihapus")
                 else:
                     writer.writerow([line[0],line[1],str(tiketAkhir)])
