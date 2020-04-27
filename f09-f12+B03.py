@@ -59,23 +59,24 @@ def refund(username):
                         pass_simpan=row['Password']
                         role_simpan=row['Role']
                         saldo_simpan=row['Saldo']
-                        arrayuser[n]=(nama_simpan,tanggalL_simpan,Tinggi_simpan,user_simpan,pass_simpan,role_simpan,saldo_simpan)
+                        gold=row['Gold']
+                        arrayuser[n]=(nama_simpan,tanggalL_simpan,Tinggi_simpan,user_simpan,pass_simpan,role_simpan,saldo_simpan,gold)
                         n+=1
 
                     for i in range (0,n):
                         if (arrayuser[i][3]) == a:
                             saldoawal=(arrayuser[i][6])
-                            saldoakhir=int(saldoawal)+(500*int(cek))
-                            arrayuser[i]=(arrayuser[i][0],arrayuser[i][1],arrayuser[i][2],arrayuser[i][3],arrayuser[i][4],arrayuser[i][5],str(saldoakhir))
+                            saldoakhir=int(float(saldoawal)+(500*float(cek)))
+                            arrayuser[i]=(arrayuser[i][0],arrayuser[i][1],arrayuser[i][2],arrayuser[i][3],arrayuser[i][4],arrayuser[i][5],str(saldoakhir),arrayuser[i][7])
                     
 
                 with open ('user.csv','w') as csvfile:
-                    fieldnames=['Nama','Tanggal_Lahir','Tinggi_Badan','Username','Password','Role','Saldo']
+                    fieldnames=['Nama','Tanggal_Lahir','Tinggi_Badan','Username','Password','Role','Saldo','Gold']
                     writer= csv.DictWriter(csvfile,fieldnames=fieldnames)
 
                     writer.writeheader()
                     for i in range (0,n):
-                        writer.writerow({'Nama':arrayuser[i][0],'Tanggal_Lahir':arrayuser[i][1],'Tinggi_Badan':arrayuser[i][2],'Username':arrayuser[i][3],'Password':arrayuser[i][4],'Role':arrayuser[i][5],'Saldo':arrayuser[i][6]})
+                        writer.writerow({'Nama':arrayuser[i][0],'Tanggal_Lahir':arrayuser[i][1],'Tinggi_Badan':arrayuser[i][2],'Username':arrayuser[i][3],'Password':arrayuser[i][4],'Role':arrayuser[i][5],'Saldo':arrayuser[i][6],'Gold':arrayuser[i][7]})
 
 
             
@@ -89,7 +90,7 @@ def refund(username):
                         writer.writerow({'Username':arraybaru[i][0],'ID_Wahana':arraybaru[i][1],'Jumlah_Tiket':(arraybaru[i][2])})
             else:
                 print("Anda tidak memiliki tiket terkait.")
-                
+
 def kritikSaran(username):
     import csv
     a=(username)
@@ -101,8 +102,6 @@ def kritikSaran(username):
         writer = csv.writer(csv_file)
         writer.writerow([a,tanggal,Id_Wahana,kritik_saran])
     print("Kritik dan saran Anda kami terima.")
-#username=input()   
-#kritikSaran(username)
 
 def adminKritikSaran():
     import csv
@@ -121,7 +120,6 @@ def adminKritikSaran():
         print('Kritik dan saran : ')
         for i in range (0,neff):
             print(array[i][0],'|',array[i][1],'|',array[i][2],'|',array[i][3],'|')
-#adminKritikSaran()
 
 def tambahWahana():
     import csv
@@ -137,7 +135,7 @@ def tambahWahana():
 
         writer.writerow([ID_Wahana,Nama_Wahana,Harga_Tiket,Batasan_umur,Batasan_tinggi])
     print("Info wahana telah ditambahkan!")
-#tambahWahana()
+
 
 def bestwahana():
     import csv
@@ -185,7 +183,7 @@ def bestwahana():
                 arraybaru[j+1]=tempgeser
             arraybaru=(arraybaru[::-1])
 
-
+            print("Best Wahana berdasarkan pembelian tiket :")
             for i in range (0,3):
                 print(i+1,"|",arraybaru[i][1],"|",arraybaru[i][2],"|",arraybaru[i][0])
 
