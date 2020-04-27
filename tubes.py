@@ -739,9 +739,9 @@ def loggedmenu():
     elif pilihan==3:
         pakaiTiket()
     elif pilihan==4:
-        refund()
+        refund(username)
     elif pilihan==5:
-        kritikSaran()
+        kritikSaran(username)
     elif pilihan==6:
         exitProgram()
 
