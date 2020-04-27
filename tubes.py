@@ -679,7 +679,7 @@ def loadFile(fileName):
     ifile.close()
     return(arr)
 
-def saveFile(fileName,array):
+def saveFile(fileName,ar ):
     
     ifile = open(fileName,'w')
     #print(array[0])
@@ -798,9 +798,11 @@ while stmt==True:
     login(username,password)
     load()
     if temp == 3 :
-        permAdmin = True
-    if (temp==2 or temp == 3):
         adminmenu()
+    elif (temp==2):
+        loggedmenu()
+    elif temp == 1:
+        print('password salah')
     else:
         print("\n Login gagal, silahkan ulangi!")
     
