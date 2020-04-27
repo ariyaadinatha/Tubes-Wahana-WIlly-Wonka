@@ -65,6 +65,7 @@ def login(Username,Password):# return temp(0 username ngga ada, 1 username ada p
                     temp = 3
 #kurang admin login
 
+# Fungsi F05-F08 + B02 #
 def cariPemain():
     findPlayer = input("Masukkan username: ")
     found = False
@@ -72,13 +73,12 @@ def cariPemain():
     with open('user.csv', 'r') as readfile:
         d = csv.reader(readfile)
         playerData = list(d)
-        count = sebutSajaLen(playerData)
+        count = sebutsajaLen(playerData)
         while (not found and i < count) :
             if (findPlayer == playerData[i][3]):
                 found = True
             else:
                 i = i + 1
-
         if found:
             print("Nama Pemain:", playerData[i][0])
             print("Tinggi Pemain:", playerData[i][2])
@@ -107,7 +107,7 @@ def cariWahana():
     batasTinggi = int(input("Batasan tinggi pemain: "))
     while (batasTinggi < 1 or batasTinggi > 2):
         print("Batasan tinggi badan tidak valid!")
-        batasUmur = int(input("Batasan tinggi pemain: "))
+        batasTinggi = int(input("Batasan tinggi pemain: "))
 
     print(" ")
 
@@ -119,107 +119,159 @@ def cariWahana():
 
     with open('wahana.csv', 'r') as userfile:
         venueData = list(csv.reader(userfile))
-        count = len(venueData)
+        count = sebutSajaLen(venueData)
 
         while (i < count):
             if (batasTinggi == 1):
                 if (batasUmur == 1):
-                    if (umur < int(venueData[i][4]) and tinggi > int(venueData[i][5])):
+                    if int(venueData[i][3]) < umur and int(venueData[i][4]) > tinggi:
                         print(venueData[i][0],"|",venueData[i][1],"|",venueData[i][2])
-                        #venueData.append(venueData[i])
                         found = True
                         i = i + 1
                     else:
                         i = i + 1
                 elif (batasUmur == 2):
-                    if (umur >= int(venueData[i][4]) and tinggi > int(venueData[i][5])):
+                    if int(venueData[i][3]) >= umur and int(venueData[i][4]) > tinggi:
                         print(venueData[i][0],"|",venueData[i][1],"|",venueData[i][2])
-                        #venueData.append(venueData[i])
                         found = True
                         i = i + 1
                     else:
                         i = i + 1
                 else:
-                    if (tinggi > int(venueData[i][5])):
+                    if int(venueData[i][4]) > tinggi:
                         print(venueData[i][0],"|",venueData[i][1],"|",venueData[i][2])
-                        #venueData.append(venueData[i])
                         found = True
                         i = i + 1
                     else:
                         i = i + 1
             else:
                 if (batasUmur == 1):
-                    if (umur < int(venueData[i][4])):
+                    if (int(venueData[i][3]) < umur):
                         print(venueData[i][0],"|",venueData[i][1],"|",venueData[i][2])
-                        #venueData.append(venueData[i])
                         found = True
                         i = i + 1
                     else:
                         i = i + 1
                 elif (batasUmur == 2):
-                    if (umur >= int(venueData[i][4])):
+                    if int(venueData[i][4]) >= umur:
                         print(venueData[i][0],"|",venueData[i][1],"|",venueData[i][2])
-                        #venueData.append(venueData[i])
                         found = True
                         i = i + 1
                     else:
                         i = i + 1
                 else:
                     print(venueData[i][0],"|",venueData[i][1],"|",venueData[i][2])
-                    #venueData.append(venueData[i])
                     found = True
                     i = i + 1
 
         if not found:
             print("Tidak ada wahana yang sesuai dengan pencarian Anda.")
-
-def beliTiket():
-    # Catatan (1): Harusnya nanti username ikut diwrite ke file csv tapi ini tanpa login jd belum
-    # Catatan (2): Kalau mau beli tiket lebih dari 1 wahana sebaiknya satu2 aja jangan langsung banyak
-    # Catatan (3): Masih tanpa login, saldo dan umur pemain belum dicek
-
+               
+def beliTiket(username):
     wahanaID = input("Masukkan ID wahana: ")
     today = input("Masukkan tanggal hari ini: ") # Untuk cek umur pemain
-    qty = input("Jumlah tiket yang dibeli: ")
+    qty = int(input("Jumlah tiket yang dibeli: "))
 
-    ticket = [wahanaID, qty] # Nanti pas udah dgn login index pertamanya itu username
+    # Array tanggal hari ini
+    curr = [int(today[:2]), int(today[3:5]), int(today[6:])] 
 
-    with open('wahana.csv', 'r') as userfile:
-        venueData = list(csv.reader(userfile))
-        count = len(venueData)
-
-        i = 1
+    with open('user.csv', 'r') as userfile:
+        userData = list(csv.reader(userfile))
         found = False
+        i = 1
 
-        while (not found and i < count):
-            if (wahanaID == venueData[i][0]):
+        # Cari index user
+        while (not found and i < length(userData)):
+            if (username == userData[i][3]):
                 found = True
             else:
                 i = i + 1
+
+        # Array date of birth user
+        birthYr = int(userData[i][1][6:])
+        birthMth = int(userData[i][1][3:5])
+        birthDay = int(userData[i][1][:2])
+        dob = [birthDay, birthMth, birthYr]
+
+        # Menyimpan saldo user
+        saldo = float(userData[i][6])
         
+    with open('wahana.csv', 'r') as userfile:
+        venueData = list(csv.reader(userfile))
+        count = sebutSajaLen(venueData)
+
+        j = 1
+        found = False
+
+        # Cari index wahana
+        while (not found and i < count):
+            if (wahanaID == venueData[j][0]):
+                found = True
+            else:
+                j = j + 1
+        
+        # Menyimpan harga tiket
+        if userData[i][7]: # Memeriksa apakah akun gold
+            price = int(venueData[j][2]) * 0.5
+        else:
+            price = int(venueData[j][2])
+
+        # Memeriksa umur user
+        old = False 
+        
+        if (curr[2] - dob[2] > int(venueData[j][3])):
+            old = True
+        elif (curr[2] - dob[2] == int(venueData[j][3])):
+            if (curr[1] - dob[1] == 0):
+                if (curr[0] - dob[0] < 0):
+                    print("Anda tidak cukup umur untuk menaiki wahana ini.")
+                else:
+                    old = True
+            elif (curr[1] - dob[1] < 0):
+                    print("Anda tidak cukup umur untuk menaiki wahana ini.")
+            else:
+                old = True
+        else:
+            print("Anda tidak cukup umur untuk menaiki wahana ini.")
+
+        # Memeriksa saldo user
+        enough = False
+        if old:
+            if (saldo >= price*qty):
+                enough = True
+                userData[i][6] = saldo - price*qty
+            else:
+                print("Saldo Anda tidak cukup.")
+    
+    if enough:
         print("")
-        print("Selamat bersenang-senang di", venueData[i][1])
+        print("Selamat bersenang-senang di", venueData[j][1])
+        print(" ")
+        tiket = [username, wahanaID, qty]
+        
+        with open('tiket.csv', 'a+', newline='') as write:
+            a = csv.writer(write)
+            a.writerow(tiket)  
 
-    with open('tiket.csv', 'a+', newline='') as write:
-        w = writer(write)
-        w.writerow(ticket)    
+        with open('user.csv', 'w', newline='') as write:
+            b = csv.writer(write)
+            b.writerows(userData)       
 
-def pakaiTiket():
+def pakaiTiket(username):
     wahanaID = input("Masukkan ID wahana: ")
     date = input("Masukkan tanggal hari ini: ")
     use = int(input("Jumlah tiket yang digunakan: "))
 
     with open('tiket.csv', 'r', newline='') as userfile:
-        d = csv.reader(userfile)
-        tiket = list(d)
-        count = len(tiket)
+        tiket = list(csv.reader(userfile))
+        count = sebutSajaLen(tiket)
         
         valid = False
         found = False
         i = 1
 
         while not found and i < count:
-            if (wahanaID == tiket[i][1]):
+            if (wahanaID == tiket[i][1] and username == tiket[i][0]):
                 found = True
             else:
                 i = i + 1
@@ -227,21 +279,89 @@ def pakaiTiket():
         if found:
             if (use <= int(tiket[i][2])):
                 valid = True
-                if valid:
-                    newQty = int(tiket[i][2]) - use
-                    if newQty == 0 :
-                        tiket.pop(i)
-                    else:
-                        tiket[i][2] = str(newQty)
+                newQty = int(tiket[i][2]) - use
+                if newQty == 0 :
+                    tiket.pop(i)
                 else:
-                    print("Tiket Anda tidak valid dalam sistem kami.")
-                
+                    tiket[i][2] = str(newQty) 
+            else:
+                print("Tiket Anda tidak valid dalam sistem kami.")
         else:
             print("Tiket Anda tidak valid dalam sistem kami.")
-        
+
+    with open('wahana.csv', 'r') as userfile:
+        venueData = list(csv.reader(userfile))
+        count = sebutSajaLen(venueData)
+        found = False
+        j = 1
+
+        while not found and j < count:
+            if venueData[j][0] == wahanaID:
+                found = True
+            else:
+                j = j + 1
+        if valid:
+            print("")
+            print("Selamat bersenang-senang di", venueData[j][1])
+
     with open('tiket.csv', 'w', newline='') as userfile:
         f = csv.writer(userfile)
         f.writerows(tiket)
+
+def goldAccount(username):
+    with open('user.csv', 'r') as userfile:
+        userData = list(csv.reader(userfile))
+        upgrade = False
+
+        # Mencari index username pemain
+        count = length(userData)
+        i = 1
+        found = False
+
+        while (not found and i < count) :
+            if (username == userData[i][3]):
+                found = True
+            else:
+                i = i + 1
+
+        if (userData[i][5] == "admin"):
+            print("Harga akun premium adalah Rp50.000,00")
+            upgrUser = input("Masukkan username user yang ingin di-upgrade:")
+            price = 50000
+
+            upgrade = False
+            found = False
+            i = 1
+
+            # Cari index user
+            while not found and i < length(userData) :
+                if (upgrUser == userData[i][3]):
+                    found = True
+                else:
+                    i = i + 1
+                
+            # Upgrade account
+            if found:
+                if (userData[i][7] == "True"):
+                    print("Akun sudah terdaftar sebagai Golden.")
+                else:
+                    if (float(userData[i][6]) > price):
+                        userData[i][7] = True
+                        userData[i][6] = float(userData[i][6]) - price
+                        upgrade = True
+                        print("Akun Anda telah diupgrade.")
+                    else:
+                        print("Saldo pengguna tidak cukup untuk melakukan upgrade.")
+            else:
+                print("Pengguna tidak ditemukan.")
+            if upgrade:
+                with open('user.csv', 'w', newline='') as write:
+                    w = writer(write)
+                    w.writerows(userData) 
+        else:
+            print("Anda tidak dapat mengakses menu ini.")
+
+
 
 def refund(username):
 
@@ -642,6 +762,7 @@ def adminmenu():
 #Kondisi awal
 import csv
 import getpass
+from csv import writer
 from datetime import date
 from cryptography.fernet import Fernet
 
