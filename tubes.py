@@ -47,13 +47,13 @@ def save():
     fileRefund=input("Masukkan nama File Refund Tiket : ")
     fileKritiksaran=input("Masukkan nama File Kritik dan Saran : ")
     '''
-    saveFile("userTemp.csv", ArrUser)
-    saveFile("wahanaTemp.csv",ArrWahana)
-    saveFile("pembelianTemp.csv",ArrPembelian)
-    saveFile("penggunaanTemp.csv",ArrPenggunaan)
-    saveFile("tiketTemp.csv",ArrTiket)
+    saveFile("user.csv", ArrUser)
+    saveFile("wahana.csv",ArrWahana)
+    saveFile("pembelian.csv",ArrPembelian)
+    saveFile("penggunaan.csv",ArrPenggunaan)
+    saveFile("tiket.csv",ArrTiket)
     saveFile('refund.csv',ArrRefund)
-    saveFile("kritiksaranTemp.csv",ArrKritiksaran)
+    saveFile("kritiksaran.csv",ArrKritiksaran)
     print("Data berhasil disimpan!")
 
 def signup():
